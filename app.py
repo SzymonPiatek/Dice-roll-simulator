@@ -33,10 +33,10 @@ class App(ctk.CTk):
         
         # frame setup
         StartFrame(self).place(relx = 0.5, rely = 0.5, anchor = 'center', 
-                               relwidth = 0.9, relheight = 0.9)
-        
+                               relwidth = 0.94, relheight = 0.91)
+    
         # binds
-        self.bind('<F11>', self.toggle_fullscreen)
+        # self.bind('<F11>', self.toggle_fullscreen)
         self.bind('<Escape>', self.quit_question)
         
         # run

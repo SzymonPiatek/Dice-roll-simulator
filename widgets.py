@@ -17,18 +17,48 @@ class FirstLabel(ctk.CTkLabel):
             corner_radius = CORNER_RADIUS,
             text_color = TEXT_COLOR3)
         
-class SecondLabel(ctk.CTkLabel):
-    def __init__(self, parent, textvariable, fg_color, text_color, font_size):
+class ImageLabel(ctk.CTkLabel):
+    def __init__(self, parent):
         # setup
         super().__init__(
             master = parent,
-            textvariable = textvariable,
-            fg_color = fg_color,
-            font = (ctk.CTkFont(family = FONT_FAMILY, size = font_size, weight = 'bold')),
-            corner_radius = CORNER_RADIUS,
-            justify = 'center',
-            text_color = text_color)
+            corner_radius = CORNER_RADIUS3,
+            fg_color = COLOR3,
+            text = '')
         
+class TitleLabel(ctk.CTkLabel):
+    def __init__(self, parent, text):
+        # setup
+        super().__init__(
+            master = parent,
+            corner_radius = CORNER_RADIUS3,
+            fg_color = COLOR2,
+            font = (ctk.CTkFont(family = FONT_FAMILY, size = FONT_SIZE, weight = 'bold')),
+            text = text,
+            text_color = TEXT_COLOR)    
+
+class ScoreLabel(ctk.CTkLabel):
+    def __init__(self, parent, var):
+        # setup
+        super().__init__(
+            master = parent,
+            textvariable = var,
+            fg_color = COLOR,
+            font = (ctk.CTkFont(family = FONT_FAMILY, size = FONT_SIZE, weight = 'bold')),
+            corner_radius = CORNER_RADIUS,
+            text_color = TEXT_COLOR3)
+
+class TimerLabel(ctk.CTkLabel):
+    def __init__(self, parent, var):
+        # setup
+        super().__init__(
+            master = parent,
+            textvariable = var,
+            fg_color = COLOR,
+            font = (ctk.CTkFont(family = FONT_FAMILY, size = FONT_SIZE5, weight = 'bold')),
+            corner_radius = CORNER_RADIUS,
+            text_color = TEXT_COLOR3)
+
 class VersionLabel(ctk.CTkLabel):
     def __init__(self, parent, text):
         # setup
@@ -41,9 +71,8 @@ class VersionLabel(ctk.CTkLabel):
             justify = 'center',
             text_color = TEXT_COLOR3)
         
-        
 class FirstEntry(ctk.CTkEntry):
-    def __init__(self, parent, var):
+    def __init__(self, parent, var, command):
         # setup
         super().__init__(
             master = parent,
@@ -52,7 +81,9 @@ class FirstEntry(ctk.CTkEntry):
             font = (ctk.CTkFont(family = FONT_FAMILY, size = FONT_SIZE, weight = 'bold')),
             corner_radius = CORNER_RADIUS2,
             justify = 'center',
-            text_color = TEXT_COLOR)
+            text_color = TEXT_COLOR,
+            validate = 'key',
+            validatecommand = (command, "%P"))
         
 class FirstButton(ctk.CTkButton):
     def __init__(self, parent, text, func):
@@ -64,4 +95,5 @@ class FirstButton(ctk.CTkButton):
             text = text,
             font = (ctk.CTkFont(family = FONT_FAMILY, size = FONT_SIZE2, weight = 'bold')),
             corner_radius = CORNER_RADIUS2,
-            text_color = TEXT_COLOR)
+            text_color = TEXT_COLOR,
+            command = func)

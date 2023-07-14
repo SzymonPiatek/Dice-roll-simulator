@@ -1,0 +1,5 @@
+player.ico
+    https://www.pngwing.com/en/free-png-pytxx
+
+computer.ico
+    https://www.pngwing.com/en/free-png-zuckf
