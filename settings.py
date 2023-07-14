@@ -29,13 +29,15 @@ FONT_SIZE3 = 16
 FONT_SIZE4 = 24
 FONT_SIZE5 = 128
 
+# Opponents name/images
+COMPUTER_NAME_SOURCE = ['raven', 'beast_boy', 'starfire', 'pikachu']
+COMPUTER_NAME = ['Raven', 'Bestia', 'Gwiazdka', 'Pikachu']
+
 ### Texts ###
-VERSION = 'v0.0.1'
+VERSION = 'v0.0.2'
 
 EXIT = 'Czy na pewno chcesz zamknąć aplikację?'
 WELCOME = 'Siemka 😁'
 NAME_ASK = 'Jak masz na imię? 🤔'
-SUBMIT = 'Potwierdź'
-
-COMPUTER_NAME = 'Komputer'
+SUBMIT = 'Graj'
 SCORE = 'Wynik'

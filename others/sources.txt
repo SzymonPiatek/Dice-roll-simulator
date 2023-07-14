@@ -1,5 +1,14 @@
-player.ico
+player0.ico
     https://www.pngwing.com/en/free-png-pytxx
 
-computer.ico
+raven.ico
     https://www.pngwing.com/en/free-png-zuckf
+
+beast_boy.ico
+    https://www.pngwing.com/en/free-png-zlnng
+
+starfire.ico
+    https://www.pngwing.com/en/free-png-mllmy
+
+pikachu.ico
+    https://www.pngwing.com/en/free-png-ytrof

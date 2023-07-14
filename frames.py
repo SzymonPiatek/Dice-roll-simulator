@@ -69,12 +69,26 @@ class MenuFrame(ctk.CTkFrame):
         self.player_score_var = tk.IntVar(value = 0)
         self.computer_score_var = tk.IntVar(value = 0)
         self.timer_var = tk.IntVar(value = 3)
+        self.who_win_var = tk.StringVar()
+        
+        # images import
+        # random player image
+        x = random.randint(0, 0)
+        player_ico = Image.open(f'img/avatars/player/player{x}.ico')
+        player_ico = ctk.CTkImage(player_ico, size = (126, 126))
+        
+        # random computer image
+        y = random.choice(COMPUTER_NAME_SOURCE)
+        y_index = COMPUTER_NAME_SOURCE.index(y)
+        
+        computer_ico = Image.open(f'img/avatars/computer/{y}.ico')
+        computer_ico = ctk.CTkImage(computer_ico, size = (126, 126))
         
         # create widgets
         name_label = FirstLabel(self, text = name_label_var.get(), font_size = FONT_SIZE4)
         player_ico_label = ImageLabel(self)
         
-        computer_label = FirstLabel(self, text = COMPUTER_NAME, font_size = FONT_SIZE4)
+        computer_label = FirstLabel(self, text = COMPUTER_NAME[y_index], font_size = FONT_SIZE4)
         computer_ico_label = ImageLabel(self)
         
         score_title_label = TitleLabel(self, text = SCORE)
@@ -82,20 +96,9 @@ class MenuFrame(ctk.CTkFrame):
         player_score_label = ScoreLabel(self, var = self.player_score_var)
         computer_score_label = ScoreLabel(self, var = self.computer_score_var)
         
-        self.timer_label = TimerLabel(self, var = self.timer_var)
-        
+        self.timer_label = ScoreLabel(self, var = self.timer_var)
         self.throw_button = FirstButton(self, text = 'Rzuć kostką', func = self.dice_throw)
-        
-        # images import
-        # random player image
-        x = random.randint(0, 0)
-        player_ico = Image.open(f'img/player{x}.ico')
-        player_ico = ctk.CTkImage(player_ico, size = (126, 126))
-        
-        # random computer image
-        y = random.randint(0, 0)
-        computer_ico = Image.open(f'img/computer{y}.ico')
-        computer_ico = ctk.CTkImage(computer_ico, size = (126, 126))
+        self.who_win_label = ScoreLabel(self, var = self.who_win_var)
         
         # label config
         player_ico_label.configure(image = player_ico)
@@ -129,10 +132,13 @@ class MenuFrame(ctk.CTkFrame):
         self.throw_button.configure(state = 'disabled')
         self.timer_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
         self.update()
+        # 3
         self.after(1000, self.timer_var.set(self.timer_var.get() - 1))
         self.update()
+        # 2
         self.after(1000, self.timer_var.set(self.timer_var.get() - 1))
         self.update()
+        # 1
         self.after(1000, self.throw_and_score)
         
     def throw_and_score(self):
@@ -143,12 +149,26 @@ class MenuFrame(ctk.CTkFrame):
         computer_throw = random.randint(1, 6)
         
         if player_throw < computer_throw:
-            print('Player lose')
+            self.update()
+            self.who_win_var.set('Wygrał przeciwnik!')
+            self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
+            self.update()
             self.computer_score_var.set(self.computer_score_var.get() + 1)
+            self.after(1000, self.who_win_label.place_forget())
+            
         elif player_throw == computer_throw:
-            print('Tie')
+            self.update()
+            self.who_win_var.set('Remis!')
+            self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
+            self.update()
+            self.after(1000, self.who_win_label.place_forget())
+            
         else:
+            self.update()
+            self.who_win_var.set('Wygrałeś!')
+            self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
+            self.update()
             self.player_score_var.set(self.player_score_var.get() + 1)
-            print('Player win')
+            self.after(1000, self.who_win_label.place_forget())
         
-        self.after(1000, self.throw_button.configure(state = 'normal'))
+        self.after(0, self.throw_button.configure(state = 'normal'))
