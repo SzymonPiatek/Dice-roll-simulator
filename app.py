@@ -7,6 +7,7 @@ from frames import *
 import tkinter as tk
 import customtkinter as ctk
 from tkinter import messagebox
+from tkinter import ttk
 
 # Create an application class
 class App(ctk.CTk):

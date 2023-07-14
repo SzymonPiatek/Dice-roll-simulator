@@ -4,6 +4,8 @@ COLOR = '#f4e1d2'           # beige
 COLOR2 = '#f18973'          # lighter red
 COLOR3 = '#b2b2b2'          # light gray
 COLOR4 = '#bc5a45'          # light red
+COLOR5 = '#000000'          # black
+COLOR6 = '#eb4034'          # red
 
 # Text colors
 TEXT_COLOR = '#f0ead6'      # not white white
@@ -33,8 +35,11 @@ FONT_SIZE5 = 128
 COMPUTER_NAME_SOURCE = ['raven', 'beast_boy', 'starfire', 'pikachu']
 COMPUTER_NAME = ['Raven', 'Bestia', 'Gwiazdka', 'Pikachu']
 
+# Player status
+HEALTH = 20
+
 ### Texts ###
-VERSION = 'v0.0.2'
+VERSION = 'v0.0.3'
 
 EXIT = 'Czy na pewno chcesz zamknąć aplikację?'
 WELCOME = 'Siemka 😁'

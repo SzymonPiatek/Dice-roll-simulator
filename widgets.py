@@ -4,6 +4,7 @@ from settings import *
 # Import needed libraries
 import tkinter as tk
 import customtkinter as ctk
+from tkinter import ttk
 
 # Create classes
 class FirstLabel(ctk.CTkLabel):
@@ -38,27 +39,16 @@ class TitleLabel(ctk.CTkLabel):
             text_color = TEXT_COLOR)    
 
 class ScoreLabel(ctk.CTkLabel):
-    def __init__(self, parent, var):
+    def __init__(self, parent, var, font_size):
         # setup
         super().__init__(
             master = parent,
             textvariable = var,
             fg_color = COLOR,
-            font = (ctk.CTkFont(family = FONT_FAMILY, size = FONT_SIZE, weight = 'bold')),
+            font = (ctk.CTkFont(family = FONT_FAMILY, size = font_size, weight = 'bold')),
             corner_radius = CORNER_RADIUS,
             text_color = TEXT_COLOR3)
-
-class TimerLabel(ctk.CTkLabel):
-    def __init__(self, parent, var):
-        # setup
-        super().__init__(
-            master = parent,
-            textvariable = var,
-            fg_color = COLOR,
-            font = (ctk.CTkFont(family = FONT_FAMILY, size = FONT_SIZE5, weight = 'bold')),
-            corner_radius = CORNER_RADIUS,
-            text_color = TEXT_COLOR3)
-
+        
 class VersionLabel(ctk.CTkLabel):
     def __init__(self, parent, text):
         # setup
@@ -97,3 +87,11 @@ class FirstButton(ctk.CTkButton):
             corner_radius = CORNER_RADIUS2,
             text_color = TEXT_COLOR,
             command = func)
+        
+class HealthBar(ttk.Progressbar):
+    def __init__(self, parent, max):
+        # setup
+        super().__init__(
+            master = parent,
+            mode = 'determinate',
+            maximum = max)
