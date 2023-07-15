@@ -4,10 +4,8 @@ from widgets import *
 from frames import *
 
 # Import needed libraries
-import tkinter as tk
 import customtkinter as ctk
 from tkinter import messagebox
-from tkinter import ttk
 
 # Create an application class
 class App(ctk.CTk):
@@ -37,7 +35,6 @@ class App(ctk.CTk):
                                relwidth = 0.94, relheight = 0.91)
     
         # binds
-        # self.bind('<F11>', self.toggle_fullscreen)
         self.bind('<Escape>', self.quit_question)
         
         # run

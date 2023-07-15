@@ -39,10 +39,11 @@ COMPUTER_NAME = ['Raven', 'Bestia', 'Gwiazdka', 'Pikachu']
 HEALTH = 20
 
 ### Texts ###
-VERSION = 'v0.0.3'
+VERSION = 'v0.0.4'
 
 EXIT = 'Czy na pewno chcesz zamknąć aplikację?'
-WELCOME = 'Siemka 😁'
-NAME_ASK = 'Jak masz na imię? 🤔'
+WELCOME = 'Wybierz postać'
+NAME_ASK = 'Jak masz na imię?'
 SUBMIT = 'Graj'
 SCORE = 'Wynik'
+CHOOSE = [1, 2, 3, 4]
