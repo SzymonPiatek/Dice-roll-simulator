@@ -25,10 +25,9 @@ class StartFrame(ctk.CTkFrame):
         super().__init__(master = master, fg_color = COLOR)
 
         # variable
-        global name_label_var, name_var, submit_button, avatar_choice_var 
-        global avatar_button, avatar_button2, avatar_button3, avatar_button4
-        name_var = tk.StringVar(value = '')
-        name_var.trace('w', self.update_label)
+        global avatar_choice_var, name_label_var
+        self.name_var = tk.StringVar(value = '')
+        self.name_var.trace('w', self.update_label)
         name_label_var = tk.StringVar()
         avatar_choice_var = tk.IntVar(value = 0)
         
@@ -39,12 +38,12 @@ class StartFrame(ctk.CTkFrame):
         avatar3_label = ImageLabel(self)
         avatar4_label = ImageLabel(self)
         name_ask_label = FirstLabel(self, text = NAME_ASK, font_size = FONT_SIZE2)
-        name_entry = FirstEntry(self, var = name_var, command = self.register(self.validate_input))
-        submit_button = FirstButton(self, text = SUBMIT, func = self.submit)      
-        avatar_button = FirstButton(self, text = CHOOSE[0], func = lambda: self.avatar_choice(1, text = name_label_var.get()))
-        avatar_button2 = FirstButton(self, text = CHOOSE[1], func = lambda: self.avatar_choice(2, text = name_label_var.get()))
-        avatar_button3 = FirstButton(self, text = CHOOSE[2], func = lambda: self.avatar_choice(3, text = name_label_var.get()))
-        avatar_button4 = FirstButton(self, text = CHOOSE[3], func = lambda: self.avatar_choice(4, text = name_label_var.get()))
+        name_entry = FirstEntry(self, var = self.name_var, command = self.register(self.validate_input))
+        self.submit_button = FirstButton(self, text = SUBMIT, func = self.submit)      
+        self.avatar_button = FirstButton(self, text = CHOOSE[0], func = lambda: self.avatar_choice(1, text = name_label_var.get()))
+        self.avatar_button2 = FirstButton(self, text = CHOOSE[1], func = lambda: self.avatar_choice(2, text = name_label_var.get()))
+        self.avatar_button3 = FirstButton(self, text = CHOOSE[2], func = lambda: self.avatar_choice(3, text = name_label_var.get()))
+        self.avatar_button4 = FirstButton(self, text = CHOOSE[3], func = lambda: self.avatar_choice(4, text = name_label_var.get()))
         
         # images import
         player_ico = Image.open('img/avatars/player/player1.ico')
@@ -66,7 +65,7 @@ class StartFrame(ctk.CTkFrame):
         avatar4_label.configure(image = player_ico4)
         
         # configure button
-        submit_button.configure(state = 'disabled')
+        self.submit_button.configure(state = 'disabled')
           
         # display widgets
         choice_label.place(relx = 0.5, rely = 0.1, anchor = 'center',
@@ -79,24 +78,24 @@ class StartFrame(ctk.CTkFrame):
                            relwidth = 0.2, relheight = 0.2)
         avatar4_label.place(relx = 0.86, rely = 0.35, anchor = 'center',
                            relwidth = 0.2, relheight = 0.2)
-        name_ask_label.place(relx = 0.5, rely = 0.57, anchor = 'center',
+        name_ask_label.place(relx = 0.5, rely = 0.58, anchor = 'center',
                              relwidth = 1, relheight = 0.1)
         name_entry.place(relx = 0.5, rely = 0.7, anchor = 'center',
                          relwidth = 0.6, relheight = 0.15)
-        submit_button.place(relx = 0.5, rely = 0.9, anchor = 'center',
+        self.submit_button.place(relx = 0.5, rely = 0.9, anchor = 'center',
                             relwidth = 0.25, relheight = 0.1)
-        avatar_button.place(relx = 0.14, rely = 0.5, anchor = 'center',
+        self.avatar_button.place(relx = 0.14, rely = 0.5, anchor = 'center',
                             relwidth = 0.2, relheight = 0.07)
-        avatar_button2.place(relx = 0.38, rely = 0.5, anchor = 'center',
+        self.avatar_button2.place(relx = 0.38, rely = 0.5, anchor = 'center',
                             relwidth = 0.2, relheight = 0.07)
-        avatar_button3.place(relx = 0.62, rely = 0.5, anchor = 'center',
+        self.avatar_button3.place(relx = 0.62, rely = 0.5, anchor = 'center',
                             relwidth = 0.2, relheight = 0.07)
-        avatar_button4.place(relx = 0.86, rely = 0.5, anchor = 'center',
+        self.avatar_button4.place(relx = 0.86, rely = 0.5, anchor = 'center',
                             relwidth = 0.2, relheight = 0.07)
         
     # methods
     def update_label(self, *args):
-        name_label_var.set(name_var.get().lower().capitalize())
+        name_label_var.set(self.name_var.get().lower().capitalize())
         
     def submit(self):
         MenuFrame(self).place(relx = 0, rely = 0, 
@@ -107,9 +106,9 @@ class StartFrame(ctk.CTkFrame):
         if len(text) <= 10:
             if text.isalpha() or text == '':
                 if (len(text) >= 3) and (avatar_choice_var.get() > 0):
-                    submit_button.configure(state = 'normal')
+                    self.submit_button.configure(state = 'normal')
                 else:
-                    submit_button.configure(state = 'disabled')
+                    self.submit_button.configure(state = 'disabled')
                 return True
             else:
                 return False
@@ -118,24 +117,32 @@ class StartFrame(ctk.CTkFrame):
     
     def avatar_choice(self, number, text):
         avatar_choice_var.set(value = number)
-        avatar_button.configure(state = 'disabled')
-        avatar_button2.configure(state = 'disabled')
-        avatar_button3.configure(state = 'disabled')
-        avatar_button4.configure(state = 'disabled')
-        
+
         if number == 1:
-            avatar_button.configure(state = 'normal')
+            self.avatar_button.configure(fg_color = COLOR4)
+            self.avatar_button2.configure(fg_color = COLOR2)
+            self.avatar_button3.configure(fg_color = COLOR2)
+            self.avatar_button4.configure(fg_color = COLOR2)
         elif number == 2:
-            avatar_button2.configure(state = 'normal')
+            self.avatar_button.configure(fg_color = COLOR2)
+            self.avatar_button2.configure(fg_color = COLOR4)
+            self.avatar_button3.configure(fg_color = COLOR2)
+            self.avatar_button4.configure(fg_color = COLOR2)
         elif number == 3:
-            avatar_button3.configure(state = 'normal')
+            self.avatar_button.configure(fg_color = COLOR2)
+            self.avatar_button2.configure(fg_color = COLOR2)
+            self.avatar_button3.configure(fg_color = COLOR4)
+            self.avatar_button4.configure(fg_color = COLOR2)
         elif number == 4:
-            avatar_button4.configure(state = 'normal')     
+            self.avatar_button.configure(fg_color = COLOR2)
+            self.avatar_button2.configure(fg_color = COLOR2)
+            self.avatar_button3.configure(fg_color = COLOR2)
+            self.avatar_button4.configure(fg_color = COLOR4)
             
         if (len(text) >= 3) and (avatar_choice_var.get() > 0):
-            submit_button.configure(state = 'normal')
+            self.submit_button.configure(state = 'normal')
         else:
-            submit_button.configure(state = 'disabled')   
+            self.submit_button.configure(state = 'disabled')   
     
 class MenuFrame(ctk.CTkFrame):
     def __init__(self, master):
@@ -143,8 +150,6 @@ class MenuFrame(ctk.CTkFrame):
         super().__init__(master = master, fg_color = COLOR)
         
         # variables
-        global player_dice_label, computer_dice_label
-        global dice1_ico, dice2_ico, dice3_ico, dice4_ico, dice5_ico, dice6_ico
         self.player_score_var = tk.IntVar(value = 0)
         self.computer_score_var = tk.IntVar(value = 0)
         self.timer_var = tk.IntVar(value = 3)
@@ -167,22 +172,22 @@ class MenuFrame(ctk.CTkFrame):
         computer_ico = ctk.CTkImage(computer_ico, size = (size1, size1))
          
         dice1_ico = Image.open('img/dices/dice1.ico')
-        dice1_ico = ctk.CTkImage(dice1_ico, size = (size1, size1))
+        self.dice1_ico = ctk.CTkImage(dice1_ico, size = (size1, size1))
         
         dice2_ico = Image.open('img/dices/dice2.ico')
-        dice2_ico = ctk.CTkImage(dice2_ico, size = (size1, size1))
+        self.dice2_ico = ctk.CTkImage(dice2_ico, size = (size1, size1))
         
         dice3_ico = Image.open('img/dices/dice3.ico')
-        dice3_ico = ctk.CTkImage(dice3_ico, size = (size1, size1))
+        self.dice3_ico = ctk.CTkImage(dice3_ico, size = (size1, size1))
         
         dice4_ico = Image.open('img/dices/dice4.ico')
-        dice4_ico = ctk.CTkImage(dice4_ico, size = (size1, size1))
+        self.dice4_ico = ctk.CTkImage(dice4_ico, size = (size1, size1))
         
         dice5_ico = Image.open('img/dices/dice5.ico')
-        dice5_ico = ctk.CTkImage(dice5_ico, size = (size1, size1))
+        self.dice5_ico = ctk.CTkImage(dice5_ico, size = (size1, size1))
         
         dice6_ico = Image.open('img/dices/dice6.ico')
-        dice6_ico = ctk.CTkImage(dice6_ico, size = (size1, size1))
+        self.dice6_ico = ctk.CTkImage(dice6_ico, size = (size1, size1))
         
         # create widgets
         name_label = FirstLabel(self, text = name_label_var.get(), font_size = FONT_SIZE4)
@@ -203,8 +208,8 @@ class MenuFrame(ctk.CTkFrame):
         self.throw_button = FirstButton(self, text = 'Rzuć kostką', func = self.dice_throw)
         self.who_win_label = ScoreLabel(self, var = self.who_win_var, font_size = FONT_SIZE)
         
-        player_dice_label = ImageLabel(self)
-        computer_dice_label = ImageLabel(self)
+        self.player_dice_label = ImageLabel(self)
+        self.computer_dice_label = ImageLabel(self)
         
         self.winner = TitleLabel(self, text = '')
         
@@ -215,27 +220,12 @@ class MenuFrame(ctk.CTkFrame):
         computer_ico_label.configure(image = computer_ico)
         self.player_health_bar.configure(value = self.player.health)
         self.computer_health_bar.configure(value = self.computer.health)
-        player_dice_label.configure(fg_color = COLOR)
-        computer_dice_label.configure(fg_color = COLOR)
+        self.player_dice_label.configure(fg_color = COLOR)
+        self.computer_dice_label.configure(fg_color = COLOR)
         
         x = random.randint(1, 6)
         x2 = random.randint(1, 6)
         self.match_dice(x, x2)
-        player_dice_label.configure(image = dice6_ico)
-            
-        x2 = random.randint(1, 6)
-        if x2 == 1:
-            computer_dice_label.configure(image = dice1_ico)
-        elif x2 == 2:
-            computer_dice_label.configure(image = dice2_ico)
-        elif x2 == 3:
-            computer_dice_label.configure(image = dice3_ico)
-        elif x2 == 4:
-            computer_dice_label.configure(image = dice4_ico)
-        elif x2 == 5:
-            computer_dice_label.configure(image = dice5_ico)
-        elif x2 == 6:
-            computer_dice_label.configure(image = dice6_ico)
             
         # display widgets
         name_label.place(relx = 0, rely = 0.2,
@@ -267,8 +257,8 @@ class MenuFrame(ctk.CTkFrame):
         self.throw_button.place(relx = 0.5, rely = 0.9, anchor = 'center',
                            relwidth = 0.3, relheight = 0.1)
         
-        player_dice_label.place(relx = 0.1, rely = 0.6, anchor = 'center')
-        computer_dice_label.place(relx = 0.9, rely = 0.6, anchor = 'center')
+        self.player_dice_label.place(relx = 0.1, rely = 0.6, anchor = 'center')
+        self.computer_dice_label.place(relx = 0.9, rely = 0.6, anchor = 'center')
     
     # methods 
     def dice_throw(self):
@@ -302,39 +292,39 @@ class MenuFrame(ctk.CTkFrame):
             self.update()
             self.after(wait, self.who_win_var.set('Przegrałeś!'))
             self.damage_show(-damage)
-            self.label_placing() 
+            self.label_place() 
             self.update()
             self.computer_win()
             self.computer_score_var.set(self.computer_score_var.get() + 1)
-            self.after(wait2, self.label_forget)
+            self.after(wait2, self.label_place_forget)
             self.after(wait2, self.check_winner())
             self.after(0, self.throw_button.configure(state = 'normal'))
         elif self.player_throw == self.computer_throw:
             self.update()
             self.after(wait, self.who_win_var.set('Remis!'))
             self.damage_show(damage)
-            self.label_placing()
+            self.label_place()
             self.update()
-            self.after(wait2, self.label_forget)
+            self.after(wait2, self.label_place_forget)
             self.after(wait2, self.check_winner())
             self.after(0, self.throw_button.configure(state = 'normal'))
         else:
             self.update()
             self.after(wait, self.who_win_var.set('Wygrałeś!'))
             self.damage_show(damage)
-            self.label_placing() 
+            self.label_place() 
             self.update()
             self.player_win()
             self.player_score_var.set(self.player_score_var.get() + 1)
-            self.after(wait2, self.label_forget)
+            self.after(wait2, self.label_place_forget)
             self.after(wait2, self.check_winner())
             self.after(0, self.throw_button.configure(state = 'normal'))
          
-    def label_placing(self):
+    def label_place(self):
         self.damage_label.place(relx = 0.5, rely = 0.6, anchor = 'center')
         self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
     
-    def label_forget(self):
+    def label_place_forget(self):
         self.who_win_label.place_forget()
         self.damage_label.place_forget()
          
@@ -367,31 +357,31 @@ class MenuFrame(ctk.CTkFrame):
     def match_dice(self, x, x2):
         # player
         if x == 1:
-            player_dice_label.configure(image = dice1_ico)
+            self.player_dice_label.configure(image = self.dice1_ico)
         elif x == 2:
-            player_dice_label.configure(image = dice2_ico)
+            self.player_dice_label.configure(image = self.dice2_ico)
         elif x == 3:
-            player_dice_label.configure(image = dice3_ico)
+            self.player_dice_label.configure(image = self.dice3_ico)
         elif x == 4:
-            player_dice_label.configure(image = dice4_ico)
+            self.player_dice_label.configure(image = self.dice4_ico)
         elif x == 5:
-            player_dice_label.configure(image = dice5_ico)
+            self.player_dice_label.configure(image = self.dice5_ico)
         elif x == 6:
-            player_dice_label.configure(image = dice6_ico)
+            self.player_dice_label.configure(image = self.dice6_ico)
             
         # computer
         if x2 == 1:
-            computer_dice_label.configure(image = dice1_ico)
+            self.computer_dice_label.configure(image = self.dice1_ico)
         elif x2 == 2:
-            computer_dice_label.configure(image = dice2_ico)
+            self.computer_dice_label.configure(image = self.dice2_ico)
         elif x2 == 3:
-            computer_dice_label.configure(image = dice3_ico)
+            self.computer_dice_label.configure(image = self.dice3_ico)
         elif x2 == 4:
-            computer_dice_label.configure(image = dice4_ico)
+            self.computer_dice_label.configure(image = self.dice4_ico)
         elif x2 == 5:
-            computer_dice_label.configure(image = dice5_ico)
+            self.computer_dice_label.configure(image = self.dice5_ico)
         elif x2 == 6:
-            computer_dice_label.configure(image = dice6_ico)
+            self.computer_dice_label.configure(image = self.dice6_ico)
             
     def check_winner(self):
         wait = 500

@@ -39,10 +39,10 @@ COMPUTER_NAME = ['Raven', 'Bestia', 'Gwiazdka', 'Pikachu']
 HEALTH = 20
 
 # Players avatars
-CHOOSE = [1, 2, 3, 4]
+CHOOSE = ['Rigby', 'Axel', 'Dipper', 'Finn']
 
 ### Texts ###
-VERSION = 'v0.0.5'
+VERSION = 'v0.0.6'
 
 EXIT = 'Czy na pewno chcesz zamknąć aplikację?'
 WELCOME = 'Wybierz postać'

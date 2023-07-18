@@ -42,13 +42,6 @@ class App(ctk.CTk):
         self.mainloop()
         
     # methods
-    def toggle_fullscreen(self, event = None):
-        self.state = not self.state
-        if self.state:
-            self.attributes('-fullscreen', False)
-        elif self.state == False:
-            self.attributes('-fullscreen', True)
-    
     def quit_question(self, event):
         if event.keysym == 'Escape':
             result = messagebox.askquestion('', EXIT)
