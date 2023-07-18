@@ -50,13 +50,13 @@ class StartFrame(ctk.CTkFrame):
         player_ico = Image.open('img/avatars/player/player1.ico')
         player_ico = ctk.CTkImage(player_ico, size = (126, 126))
         
-        player_ico2 = Image.open('img/avatars/player/player1.ico')
+        player_ico2 = Image.open('img/avatars/player/player2.ico')
         player_ico2 = ctk.CTkImage(player_ico2, size = (126, 126))
         
-        player_ico3 = Image.open('img/avatars/player/player1.ico')
+        player_ico3 = Image.open('img/avatars/player/player3.ico')
         player_ico3 = ctk.CTkImage(player_ico3, size = (126, 126))
         
-        player_ico4 = Image.open('img/avatars/player/player1.ico')
+        player_ico4 = Image.open('img/avatars/player/player4.ico')
         player_ico4 = ctk.CTkImage(player_ico4, size = (126, 126))
         
         # label configure
@@ -143,25 +143,46 @@ class MenuFrame(ctk.CTkFrame):
         super().__init__(master = master, fg_color = COLOR)
         
         # variables
+        global player_dice_label, computer_dice_label
+        global dice1_ico, dice2_ico, dice3_ico, dice4_ico, dice5_ico, dice6_ico
         self.player_score_var = tk.IntVar(value = 0)
         self.computer_score_var = tk.IntVar(value = 0)
         self.timer_var = tk.IntVar(value = 3)
-        self.who_win_var = tk.StringVar()     
+        self.who_win_var = tk.StringVar()  
+        size1 = 126   
         
         # players
         self.player = Player(HEALTH)
         self.computer = Player(HEALTH)
         
-        # images import
+        # player image
         player_ico = Image.open(f'img/avatars/player/player{avatar_choice_var.get()}.ico')
-        player_ico = ctk.CTkImage(player_ico, size = (126, 126))
+        player_ico = ctk.CTkImage(player_ico, size = (size1, size1))
         
         # random computer image
         y = random.choice(COMPUTER_NAME_SOURCE)
         y_index = COMPUTER_NAME_SOURCE.index(y)
         
         computer_ico = Image.open(f'img/avatars/computer/{y}.ico')
-        computer_ico = ctk.CTkImage(computer_ico, size = (126, 126))
+        computer_ico = ctk.CTkImage(computer_ico, size = (size1, size1))
+         
+        dice1_ico = Image.open('img/dices/dice1.ico')
+        dice1_ico = ctk.CTkImage(dice1_ico, size = (size1, size1))
+        
+        dice2_ico = Image.open('img/dices/dice2.ico')
+        dice2_ico = ctk.CTkImage(dice2_ico, size = (size1, size1))
+        
+        dice3_ico = Image.open('img/dices/dice3.ico')
+        dice3_ico = ctk.CTkImage(dice3_ico, size = (size1, size1))
+        
+        dice4_ico = Image.open('img/dices/dice4.ico')
+        dice4_ico = ctk.CTkImage(dice4_ico, size = (size1, size1))
+        
+        dice5_ico = Image.open('img/dices/dice5.ico')
+        dice5_ico = ctk.CTkImage(dice5_ico, size = (size1, size1))
+        
+        dice6_ico = Image.open('img/dices/dice6.ico')
+        dice6_ico = ctk.CTkImage(dice6_ico, size = (size1, size1))
         
         # create widgets
         name_label = FirstLabel(self, text = name_label_var.get(), font_size = FONT_SIZE4)
@@ -182,12 +203,40 @@ class MenuFrame(ctk.CTkFrame):
         self.throw_button = FirstButton(self, text = 'Rzuć kostką', func = self.dice_throw)
         self.who_win_label = ScoreLabel(self, var = self.who_win_var, font_size = FONT_SIZE)
         
+        player_dice_label = ImageLabel(self)
+        computer_dice_label = ImageLabel(self)
+        
+        self.winner = TitleLabel(self, text = '')
+        
+        self.damage_label = FirstLabel(self, text = '', font_size = FONT_SIZE2)
+        
         # label config
         player_ico_label.configure(image = player_ico)
         computer_ico_label.configure(image = computer_ico)
         self.player_health_bar.configure(value = self.player.health)
         self.computer_health_bar.configure(value = self.computer.health)
+        player_dice_label.configure(fg_color = COLOR)
+        computer_dice_label.configure(fg_color = COLOR)
         
+        x = random.randint(1, 6)
+        x2 = random.randint(1, 6)
+        self.match_dice(x, x2)
+        player_dice_label.configure(image = dice6_ico)
+            
+        x2 = random.randint(1, 6)
+        if x2 == 1:
+            computer_dice_label.configure(image = dice1_ico)
+        elif x2 == 2:
+            computer_dice_label.configure(image = dice2_ico)
+        elif x2 == 3:
+            computer_dice_label.configure(image = dice3_ico)
+        elif x2 == 4:
+            computer_dice_label.configure(image = dice4_ico)
+        elif x2 == 5:
+            computer_dice_label.configure(image = dice5_ico)
+        elif x2 == 6:
+            computer_dice_label.configure(image = dice6_ico)
+            
         # display widgets
         name_label.place(relx = 0, rely = 0.2,
                          relwidth = 0.2, relheight = 0.1)
@@ -217,6 +266,9 @@ class MenuFrame(ctk.CTkFrame):
         
         self.throw_button.place(relx = 0.5, rely = 0.9, anchor = 'center',
                            relwidth = 0.3, relheight = 0.1)
+        
+        player_dice_label.place(relx = 0.1, rely = 0.6, anchor = 'center')
+        computer_dice_label.place(relx = 0.9, rely = 0.6, anchor = 'center')
     
     # methods 
     def dice_throw(self):
@@ -239,33 +291,62 @@ class MenuFrame(ctk.CTkFrame):
         self.player_throw = random.randint(1, 6)
         self.computer_throw = random.randint(1, 6)
         
+        damage = self.player_throw - self.computer_throw
+        
+        self.match_dice(self.player_throw, self.computer_throw)
+        
+        wait = 500
+        wait2 = 1000
+        
         if self.player_throw < self.computer_throw:
             self.update()
-            self.who_win_var.set('Wygrał przeciwnik!')
-            self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
+            self.after(wait, self.who_win_var.set('Przegrałeś!'))
+            self.damage_show(-damage)
+            self.label_placing() 
             self.update()
             self.computer_win()
             self.computer_score_var.set(self.computer_score_var.get() + 1)
-            self.after(1000, self.who_win_label.place_forget())
+            self.after(wait2, self.label_forget)
+            self.after(wait2, self.check_winner())
             self.after(0, self.throw_button.configure(state = 'normal'))
-            
         elif self.player_throw == self.computer_throw:
             self.update()
-            self.who_win_var.set('Remis!')
-            self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
+            self.after(wait, self.who_win_var.set('Remis!'))
+            self.damage_show(damage)
+            self.label_placing()
             self.update()
-            self.after(1000, self.who_win_label.place_forget())
+            self.after(wait2, self.label_forget)
+            self.after(wait2, self.check_winner())
             self.after(0, self.throw_button.configure(state = 'normal'))
-            
         else:
             self.update()
-            self.who_win_var.set('Wygrałeś!')
-            self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
+            self.after(wait, self.who_win_var.set('Wygrałeś!'))
+            self.damage_show(damage)
+            self.label_placing() 
             self.update()
             self.player_win()
             self.player_score_var.set(self.player_score_var.get() + 1)
-            self.after(1000, self.who_win_label.place_forget())
+            self.after(wait2, self.label_forget)
+            self.after(wait2, self.check_winner())
             self.after(0, self.throw_button.configure(state = 'normal'))
+         
+    def label_placing(self):
+        self.damage_label.place(relx = 0.5, rely = 0.6, anchor = 'center')
+        self.who_win_label.place(relx = 0.5, rely = 0.5, anchor = 'center')
+    
+    def label_forget(self):
+        self.who_win_label.place_forget()
+        self.damage_label.place_forget()
+         
+    def damage_show(self, damage):
+        if damage == 0:
+            self.damage_label.configure(text = 'Nie zadano obrażeń')
+        elif damage == 1:
+            self.damage_label.configure(text = f'Zadano {damage} obrażenie')
+        elif damage >= 2 and damage < 5:
+            self.damage_label.configure(text = f'Zadano {damage} obrażenia')
+        elif damage >= 5:
+            self.damage_label.configure(text = f'Zadano {damage} obrażeń')            
             
     def player_win(self):
         damage = self.player_throw - self.computer_throw
@@ -283,3 +364,46 @@ class MenuFrame(ctk.CTkFrame):
         self.player_health_label.configure(text = f'{self.health} / {HEALTH}')
         self.update()
         
+    def match_dice(self, x, x2):
+        # player
+        if x == 1:
+            player_dice_label.configure(image = dice1_ico)
+        elif x == 2:
+            player_dice_label.configure(image = dice2_ico)
+        elif x == 3:
+            player_dice_label.configure(image = dice3_ico)
+        elif x == 4:
+            player_dice_label.configure(image = dice4_ico)
+        elif x == 5:
+            player_dice_label.configure(image = dice5_ico)
+        elif x == 6:
+            player_dice_label.configure(image = dice6_ico)
+            
+        # computer
+        if x2 == 1:
+            computer_dice_label.configure(image = dice1_ico)
+        elif x2 == 2:
+            computer_dice_label.configure(image = dice2_ico)
+        elif x2 == 3:
+            computer_dice_label.configure(image = dice3_ico)
+        elif x2 == 4:
+            computer_dice_label.configure(image = dice4_ico)
+        elif x2 == 5:
+            computer_dice_label.configure(image = dice5_ico)
+        elif x2 == 6:
+            computer_dice_label.configure(image = dice6_ico)
+            
+    def check_winner(self):
+        wait = 500
+        if self.player_score_var.get() == 10 or self.computer.health <= 0:
+            self.winner.configure(text = 'Wygrałeś!!!')
+            self.after(wait, self.winner.place(relx = 0.5, rely = 0.5, anchor = 'center',
+                                               relheight = 0.15))
+            self.throw_button.place_forget()
+        elif self.computer_score_var.get() == 10 or self.player.health <= 0:
+            self.winner.configure(text = 'Przegrałeś!!!')
+            self.after(wait, self.winner.place(relx = 0.5, rely = 0.5, anchor = 'center',
+                                               relheight = 0.15))
+            self.throw_button.place_forget()
+        else:
+            pass

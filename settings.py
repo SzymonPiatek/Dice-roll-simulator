@@ -35,15 +35,17 @@ FONT_SIZE5 = 128
 COMPUTER_NAME_SOURCE = ['raven', 'beast_boy', 'starfire', 'pikachu']
 COMPUTER_NAME = ['Raven', 'Bestia', 'Gwiazdka', 'Pikachu']
 
-# Player status
+# Player class attribute
 HEALTH = 20
 
+# Players avatars
+CHOOSE = [1, 2, 3, 4]
+
 ### Texts ###
-VERSION = 'v0.0.4'
+VERSION = 'v0.0.5'
 
 EXIT = 'Czy na pewno chcesz zamknąć aplikację?'
 WELCOME = 'Wybierz postać'
 NAME_ASK = 'Jak masz na imię?'
 SUBMIT = 'Graj'
 SCORE = 'Wynik'
-CHOOSE = [1, 2, 3, 4]

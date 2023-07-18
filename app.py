@@ -22,7 +22,8 @@ class App(ctk.CTk):
         # window setup
         self.geometry(f'{APP_SIZE[0]}x{APP_SIZE[1]}+{center_width}+{center_height}')
         self.resizable(False, False)
-        self.title(f'{APP_TITLE}')        
+        self.title(f'{APP_TITLE}')
+        self.iconbitmap('img/icon/one_icon.ico')        
         
         # create widgets
         version_label = VersionLabel(self, text = VERSION)

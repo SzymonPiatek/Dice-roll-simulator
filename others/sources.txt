@@ -1,5 +1,14 @@
-player0.ico
+player1.ico
     https://www.pngwing.com/en/free-png-pytxx
+
+player2.ico
+    https://www.pngwing.com/en/free-png-xtdsd
+
+player3.ico
+    https://www.pngwing.com/en/free-png-donzz
+
+player4.ico
+    https://www.pngwing.com/en/free-png-zlpem
 
 raven.ico
     https://www.pngwing.com/en/free-png-zuckf
